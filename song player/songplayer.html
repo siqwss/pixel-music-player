@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Music Player</title>
+  <style>
+    body {
+      background: #f3d9f0;
+      font-family: 'Comic Sans MS', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .player {
+      background: #fef6ff;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 15px #d4a5ff;
+      width: 320px;
+      text-align: center;
+    }
+
+    .screen {
+      background: #e3c8ff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    .screen img {
+      width: 100%;
+      image-rendering: pixelated;
+      border-radius: 10px;
+    }
+
+    .controls button {
+      background: #f5c6f7;
+      border: none;
+      margin: 0 5px;
+      font-size: 18px;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .menu-heart {
+      margin-top: 10px;
+    }
+
+    .hearts {
+      color: #ff69b4;
+      font-size: 18px;
+    }
+
+    .album-selector {
+      margin-top: 15px;
+    }
+
+    .album-selector button {
+      background: #ffdaf4;
+      border: none;
+      margin: 5px;
+      padding: 5px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .album-display {
+      margin-top: 10px;
+    }
+
+    .album-display img {
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="player">
+    <div class="screen">
+      <p id="song-title">No song selected</p>
+      <img id="album-art" src="Feather.jpg" alt="Album Art">
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSong()">&lt;</button>
+        <button onclick="togglePlay()" class="play">▶</button>
+        <button onclick="nextSong()">&gt;</button>
+      </div>
+
+      <div class="menu-heart">
+        <button>Menu</button>
+        <span class="hearts">♥ ♥ ♥</span>
+      </div>
+
+      <div class="album-selector">
+        <button onclick="selectSong(0)">Feather</button>
+        <button onclick="selectSong(1)">Count Me Out</button>
+        <button onclick="selectSong(2)">Helmet</button>
+        <button onclick="selectSong(3)">Let It Happen</button>
+        <button onclick="selectSong(4)">911/Mr Lonely</button>
+      </div>
+  </div>
+
+  <script>
+   const songs = [
+  {
+    title: "Feather - Nujabes",
+    img: "Feather.jpg",
+    audio: "Feather.mp3"
+  },
+  {
+    title: "Count Me Out - Kendrick Lamar",
+    img: "Countmeout.jpg",
+    audio: "Countmeout.mp3"
+  },
+  {
+    title: "Helmet - Steve Lacy",
+    img: "helmet.jpg",
+    audio: "helmet.mp3"
+  },
+  {
+    title: "Let It Happen - Tame Impala",
+    img: "letithappen.jpg",
+    audio: "letithappen.mp3"
+  },
+  {
+    title: "911/Mr Lonely - Tyler, the Creator",
+    img: "911mr.lonely.jpg",
+    audio: "911mr.lonely.mp3"
+  }
+];
+
+    let currentIndex = null;
+    let currentAudio = new Audio();
+
+    function selectSong(index) {
+      currentIndex = index;
+      const song = songs[index];
+      document.getElementById("album-art").src = song.img;
+      document.getElementById("song-title").textContent = song.title;
+
+      currentAudio.pause();
+      currentAudio = new Audio(song.audio);
+      currentAudio.play();
+    }
+
+    function togglePlay() {
+      if (currentAudio.paused) {
+        currentAudio.play();
+      } else {
+        currentAudio.pause();
+      }
+    }
+
+    function prevSong() {
+      if (currentIndex === null) return;
+      currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+      selectSong(currentIndex);
+    }
+
+    function nextSong() {
+      if (currentIndex === null) return;
+      currentIndex = (currentIndex + 1) % songs.length;
+      selectSong(currentIndex);
+    }
+  </script>
+
+</body>
+</html>
